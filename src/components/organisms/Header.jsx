@@ -69,15 +69,15 @@ const Header = () => {
               onClick={() => navigate("/cart")}
               className="relative p-2"
             >
-              <ApperIcon name="ShoppingBag" size={20} />
+<ApperIcon name="ShoppingBag" size={20} />
               <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs rounded-full flex items-center justify-center">
-0
+                0
               </span>
             </Button>
 
             {/* Mobile Menu Button */}
             {/* Mobile Menu Button */}
-            <Button
+<Button
               variant="ghost"
               size="sm"
               className="md:hidden p-2"
