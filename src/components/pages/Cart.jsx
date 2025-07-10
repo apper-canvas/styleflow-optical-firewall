@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 import Button from "@/components/atoms/Button";
 import CartItem from "@/components/molecules/CartItem";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
 import ApperIcon from "@/components/ApperIcon";
-import { getCartItems } from "@/services/api/cartService";
-
+import { getCartItems, clearCart } from "@/services/api/cartService";
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
   const loadCartItems = async () => {
     try {
       setLoading(true);
@@ -47,6 +48,30 @@ const Cart = () => {
       }
       return savings;
     }, 0);
+};
+
+  const handleCheckout = async () => {
+    try {
+      setCheckoutLoading(true);
+      
+      // Simulate checkout process
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Clear cart after successful checkout
+      await clearCart();
+      
+      // Update local state
+      setCartItems([]);
+      setShowCheckoutModal(false);
+      
+      // Show success message
+      toast.success("Order placed successfully! You will receive a confirmation email shortly.");
+      
+    } catch (err) {
+      toast.error("Failed to process checkout. Please try again.");
+    } finally {
+      setCheckoutLoading(false);
+    }
   };
 
   if (loading) {
@@ -159,7 +184,11 @@ const Cart = () => {
               </div>
             </div>
 
-            <Button className="w-full mb-4" size="lg">
+<Button 
+              className="w-full mb-4" 
+              size="lg"
+              onClick={() => setShowCheckoutModal(true)}
+            >
               <ApperIcon name="CreditCard" size={20} className="mr-2" />
               Proceed to Checkout
             </Button>
@@ -174,8 +203,95 @@ const Cart = () => {
                 Continue Shopping
               </Link>
             </Button>
-          </motion.div>
+</motion.div>
         </div>
+
+        {/* Checkout Confirmation Modal */}
+        {showCheckoutModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-white rounded-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold text-secondary">Confirm Order</h2>
+                <button
+                  onClick={() => setShowCheckoutModal(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                  disabled={checkoutLoading}
+                >
+                  <ApperIcon name="X" size={20} />
+                </button>
+              </div>
+              
+              <div className="space-y-4 mb-6">
+                <div className="border-b pb-3">
+                  <h3 className="font-medium mb-2">Order Summary</h3>
+                  <div className="space-y-2 text-sm">
+                    {cartItems.map((item) => (
+                      <div key={item.Id} className="flex justify-between">
+                        <span>{item.product.name} x{item.quantity}</span>
+                        <span>₹{((item.product.discountPrice || item.product.price) * item.quantity).toLocaleString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>₹{total.toLocaleString()}</span>
+                  </div>
+                  {savings > 0 && (
+                    <div className="flex justify-between text-success">
+                      <span>You save</span>
+                      <span>-₹{savings.toLocaleString()}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between">
+                    <span>Shipping</span>
+                    <span className="text-success">FREE</span>
+                  </div>
+                  <div className="border-t pt-2">
+                    <div className="flex justify-between font-bold">
+                      <span>Total</span>
+                      <span>₹{total.toLocaleString()}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => setShowCheckoutModal(false)}
+                  disabled={checkoutLoading}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  className="flex-1"
+                  onClick={handleCheckout}
+                  disabled={checkoutLoading}
+                >
+                  {checkoutLoading ? (
+                    <>
+                      <ApperIcon name="Loader2" size={16} className="mr-2 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <ApperIcon name="CreditCard" size={16} className="mr-2" />
+                      Confirm Order
+                    </>
+                  )}
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        )}
       </div>
     </div>
   );
