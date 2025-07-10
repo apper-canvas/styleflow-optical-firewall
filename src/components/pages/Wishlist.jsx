@@ -84,7 +84,7 @@ const Wishlist = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <ProductCard product={product} />
+<ProductCard product={product} onQuickView={() => {}} onAddToCart={() => {}} onToggleWishlist={() => {}} />
           </motion.div>
         ))}
       </div>

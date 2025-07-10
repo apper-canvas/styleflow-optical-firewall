@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
-import ApperIcon from "@/components/ApperIcon";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -71,10 +71,11 @@ const Header = () => {
             >
               <ApperIcon name="ShoppingBag" size={20} />
               <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs rounded-full flex items-center justify-center">
-                0
+0
               </span>
             </Button>
 
+            {/* Mobile Menu Button */}
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
@@ -84,7 +85,6 @@ const Header = () => {
             >
               <ApperIcon name={isMobileMenuOpen ? "X" : "Menu"} size={20} />
             </Button>
-          </div>
         </div>
 
         {/* Search Bar - Mobile */}

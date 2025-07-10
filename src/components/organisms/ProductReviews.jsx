@@ -412,9 +412,9 @@ const ProductReviews = ({ productId }) => {
               
               <p className="text-gray-700 leading-relaxed">{review.comment}</p>
               
-              {review.updatedAt !== review.createdAt && (
+{review.updated_at !== review.created_at && (
                 <p className="text-xs text-gray-500 mt-2">
-                  Edited on {formatDate(review.updatedAt)}
+                  Edited on {formatDate(review.updated_at)}
                 </p>
               )}
             </motion.div>

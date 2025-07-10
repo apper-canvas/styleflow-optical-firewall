@@ -322,7 +322,7 @@ className="space-y-6"
           {/* Product Description */}
           <div className="border-t pt-6">
             <h3 className="font-semibold text-secondary mb-3">Product Details</h3>
-            <p className="text-gray-600 leading-relaxed">
+<p className="text-gray-600 leading-relaxed">
               {product.description || "A premium quality product designed for style and comfort. Made with high-quality materials and attention to detail."}
             </p>
           </div>

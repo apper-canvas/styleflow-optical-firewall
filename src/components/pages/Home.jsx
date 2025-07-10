@@ -140,7 +140,7 @@ const Home = () => {
           </p>
         </motion.div>
 
-        <ProductGrid limit={8} />
+<ProductGrid limit={8} sortBy="featured" />
 
         <div className="text-center mt-12">
           <Button asChild size="lg">

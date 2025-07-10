@@ -89,7 +89,7 @@ const CartItem = ({ item, onUpdate, onRemove }) => {
             <div className="text-lg font-semibold text-secondary">
               ₹{totalPrice.toLocaleString()}
             </div>
-            {item.product.discountPrice && (
+{item.product.discounted_price && (
               <div className="text-sm text-gray-500 line-through">
                 ₹{(item.product.price * item.quantity).toLocaleString()}
               </div>

@@ -135,9 +135,9 @@ const ProductCard = ({ product, onQuickView, onAddToCart, onToggleWishlist, isWi
           )}
         </div>
 
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-600">{product.Brand}</span>
-          <span className="text-sm text-gray-500">{product.Stock} in stock</span>
+<div className="flex items-center justify-between">
+          <span className="text-sm text-gray-600">{product.brand}</span>
+          <span className="text-sm text-gray-500">{product.stock} in stock</span>
         </div>
       </div>
     </motion.div>
