@@ -9,50 +9,50 @@ export const getProducts = async (filters = {}, sortBy = "featured", limit = nul
   let filteredProducts = [...productsData];
   
   // Apply filters
-  if (filters.search) {
+if (filters.search) {
     const searchTerm = filters.search.toLowerCase();
     filteredProducts = filteredProducts.filter(product => 
-      product.name.toLowerCase().includes(searchTerm) ||
-      product.brand.toLowerCase().includes(searchTerm) ||
-      product.category.toLowerCase().includes(searchTerm)
+      product.Name.toLowerCase().includes(searchTerm) ||
+      product.Brand.toLowerCase().includes(searchTerm) ||
+      product.Category.toLowerCase().includes(searchTerm)
     );
   }
   
   if (filters.categories && filters.categories.length > 0) {
     filteredProducts = filteredProducts.filter(product => 
-      filters.categories.includes(product.category)
+      filters.categories.includes(product.Category)
     );
   }
   
   if (filters.brands && filters.brands.length > 0) {
     filteredProducts = filteredProducts.filter(product => 
-      filters.brands.includes(product.brand)
+      filters.brands.includes(product.Brand)
     );
   }
   
   if (filters.sizes && filters.sizes.length > 0) {
     filteredProducts = filteredProducts.filter(product => 
-      product.sizes && product.sizes.some(size => filters.sizes.includes(size))
+      product.Sizes && product.Sizes.some(size => filters.sizes.includes(size))
     );
   }
   
   if (filters.colors && filters.colors.length > 0) {
     filteredProducts = filteredProducts.filter(product => 
-      product.colors && product.colors.some(color => filters.colors.includes(color))
+      product.Colors && product.Colors.some(color => filters.colors.includes(color))
     );
   }
   
   if (filters.priceRange) {
     filteredProducts = filteredProducts.filter(product => {
-      const price = product.discountPrice || product.price;
+      const price = product.DiscountedPrice || product.Price;
       return price >= (filters.priceRange.min || 0) && price <= (filters.priceRange.max || 10000);
     });
   }
   
   if (filters.discount && filters.discount > 0) {
     filteredProducts = filteredProducts.filter(product => {
-      if (product.discountPrice) {
-        const discountPercentage = Math.round(((product.price - product.discountPrice) / product.price) * 100);
+      if (product.DiscountedPrice) {
+        const discountPercentage = Math.round(((product.Price - product.DiscountedPrice) / product.Price) * 100);
         return discountPercentage >= filters.discount;
       }
       return false;
@@ -61,17 +61,17 @@ export const getProducts = async (filters = {}, sortBy = "featured", limit = nul
   
   // Apply sorting
   switch (sortBy) {
-    case "price-low":
+case "price-low":
       filteredProducts.sort((a, b) => {
-        const priceA = a.discountPrice || a.price;
-        const priceB = b.discountPrice || b.price;
+        const priceA = a.DiscountedPrice || a.Price;
+        const priceB = b.DiscountedPrice || b.Price;
         return priceA - priceB;
       });
       break;
     case "price-high":
       filteredProducts.sort((a, b) => {
-        const priceA = a.discountPrice || a.price;
-        const priceB = b.discountPrice || b.price;
+        const priceA = a.DiscountedPrice || a.Price;
+        const priceB = b.DiscountedPrice || b.Price;
         return priceB - priceA;
       });
       break;
@@ -81,10 +81,10 @@ export const getProducts = async (filters = {}, sortBy = "featured", limit = nul
     case "popularity":
       filteredProducts.sort((a, b) => Math.random() - 0.5);
       break;
-    case "discount":
+case "discount":
       filteredProducts.sort((a, b) => {
-        const discountA = a.discountPrice ? ((a.price - a.discountPrice) / a.price) * 100 : 0;
-        const discountB = b.discountPrice ? ((b.price - b.discountPrice) / b.price) * 100 : 0;
+        const discountA = a.DiscountedPrice ? ((a.Price - a.DiscountedPrice) / a.Price) * 100 : 0;
+        const discountB = b.DiscountedPrice ? ((b.Price - b.DiscountedPrice) / b.Price) * 100 : 0;
         return discountB - discountA;
       });
       break;
